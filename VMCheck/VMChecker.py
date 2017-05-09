@@ -12,14 +12,11 @@ class VMChecker():
         
     def run(self):    
         self.printLog("\nStart VMCheck: %s" %datetime.datetime.now())
-        oldmonth = self.loadData('becloud_maerz17.txt')
-        newmonth = self.loadData('becloud_april17.txt')        
-        if self.changes(oldmonth, newmonth):
-            self.printLog("Yeeha, there were some changes!!!")            
-            self.newVMs(oldmonth, newmonth)
-            print(len(newmonth))
-            self.missingVMs(oldmonth, newmonth)
-            print(len(newmonth))
+        oldmonth = self.loadData('mock_maerz17.txt')        
+        newmonth = self.loadData('mock_april17.txt')        
+        if self.changes(oldmonth, newmonth):            
+            self.printLog("New VM: %s" %self.newVMs(oldmonth, newmonth))            
+            self.missingVMs(oldmonth, newmonth)            
             self.changingParameters(oldmonth, newmonth)                        
             self.createCSV(newmonth)
         else:
@@ -48,10 +45,12 @@ class VMChecker():
         return oldmonth != newmonth
        
     #checks if there are new VM's in town
-    def newVMs(self, oldmonth, newmonth):        
+    def newVMs(self, oldmonth, newmonth):
+        newVMs = {}        
         for key in newmonth:
             if not key in oldmonth:
-               self.printLog("New VM: %s" %key)               
+               newVMs[key] = newmonth[key]
+        return newVMs
     
     #Checks if there are some VM' were deleted
     def missingVMs(self, oldmonth, newmonth):        
@@ -62,8 +61,7 @@ class VMChecker():
                     newmonth[key] = oldmonth[key]
                 else:
                     self.printLog("VM deleted (unlocked): %s" %key)
-            
-    
+                
     def changingParameters(self, oldmonth, newmonth):        
         for key in oldmonth:                        
             if oldmonth[key]["Lock"] and not oldmonth[key] == newmonth[key]:                               
@@ -99,7 +97,6 @@ class VMChecker():
 def main():   
     vmchecker = VMChecker()
     vmchecker.run()
-         
 
 if __name__ == '__main__':
     main()

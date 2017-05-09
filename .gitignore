@@ -60,6 +60,7 @@ artifacts/
 *.tli
 *.tlh
 *.tmp
+*.csv
 *.tmp_proj
 *.log
 *.vspscc
@@ -253,3 +254,6 @@ paket-files/
 /VMCheck/becloud_april17.txt
 /VMCheck/becloud_maerz17.txt
 /VMCheck/log.txt
+/VMCheck/mock_april17.txt
+/VMCheck/mock_data.txt
+/VMCheck/mock_maerz17.txt

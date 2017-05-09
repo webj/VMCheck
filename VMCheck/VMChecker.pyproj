@@ -26,6 +26,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="vmtest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="VMChecker.py" />
   </ItemGroup>
   <ItemGroup>

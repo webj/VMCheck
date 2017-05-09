@@ -5,20 +5,22 @@ import itertools
 
 class VMChecker():
         
-    __debug = True
+    __debug = False
 
     def __init__(self):
         pass
         
-    def run(self): 
-        self.printLog("Start VMCheck: %s" %datetime.datetime.now())
+    def run(self):    
+        self.printLog("\nStart VMCheck: %s" %datetime.datetime.now())
         oldmonth = self.loadData('becloud_maerz17.txt')
         newmonth = self.loadData('becloud_april17.txt')        
         if self.changes(oldmonth, newmonth):
             self.printLog("Yeeha, there were some changes!!!")            
             self.newVMs(oldmonth, newmonth)
+            print(len(newmonth))
             self.missingVMs(oldmonth, newmonth)
-            self.changingParameters(oldmonth, newmonth)
+            print(len(newmonth))
+            self.changingParameters(oldmonth, newmonth)                        
             self.createCSV(newmonth)
         else:
             self.printLog("There were no changes since last month.") 
@@ -28,8 +30,7 @@ class VMChecker():
     def loadData(self, datafile):
         csvreader = csv.reader(open(datafile), delimiter='\t')        
         mydict = {}       
-        headerrow = next(csvreader, None)        
-        print(headerrow)        
+        headerrow = next(csvreader, None)                       
         for row in csvreader:
             key = row[3]            
             if key in mydict:
@@ -55,21 +56,25 @@ class VMChecker():
     #Checks if there are some VM' were deleted
     def missingVMs(self, oldmonth, newmonth):        
         for key in oldmonth:
-            if not key in newmonth and oldmonth[key]["Lock"]:
-                self.printLog("Add missing VM: %s" %key)
-                newmonth[key] = oldmonth[key]
+            if not key in newmonth:
+                if oldmonth[key]["Lock"]:
+                    self.printLog("Add deleted VM: %s, since it is still locked." %key)
+                    newmonth[key] = oldmonth[key]
+                else:
+                    self.printLog("VM deleted (unlocked): %s" %key)
+            
     
-    def changingParameters(self, oldmonth, newmonth):
-        for key in oldmonth:
-            if not oldmonth[key] == newmonth[key]:                
+    def changingParameters(self, oldmonth, newmonth):        
+        for key in oldmonth:                        
+            if oldmonth[key]["Lock"] and not oldmonth[key] == newmonth[key]:                               
                 self.compare(oldmonth[key], newmonth[key])
 
-    def compare(self, first, second):
+    def compare(self, first, second):        
         sharedKeys = set(first.keys()).intersection(second.keys())
         for key in sharedKeys:
-            if first[key] != second[key] and second['Lock']:            
-                self.printLog('Value Changed => Server: {}, Column: {}, Value Old: {}, Value New: {}'.format(first['ID'], key, first[key], second[key]), file=open('log.txt', 'a'))
-                if first[key] > second[key]:
+            if first[key] != second[key]:            
+                self.printLog('Value Changed => Server: {}, Column: {}, Value Old: {}, Value New: {}'.format(first['ID'], key, first[key], second[key]))
+                if first[key] > second[key] and second['Lock']:
                     second[key] = first[key]
                     self.printLog('Decreasment due lock not allowed: ID %s' %second['ID'])
 

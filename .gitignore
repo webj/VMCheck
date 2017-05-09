@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/VMCheck/becloud_april17.txt
+/VMCheck/becloud_maerz17.txt
+/VMCheck/log.txt

@@ -1,9 +1,0 @@
-Typ;AP Storage;Verfuegbarkeit;Applikation;ID;CU;DisplayName;Lock;Mandant;Umgebung;Backup GVS inkl KR;Commision Date;Server
-Windows;0;100;Management Server (Jumpserver);408ecc7b-ae76-4a61-ab5e-586825ab3980;becloud.1CU;FIN-KAIO-C-ADM-T-001;True;KAIO;Test;0;2016-09-08T13:03:28Z;big-otter-17.cloud.kb-bedag.ch
-Windows;50GB;100;JGK Infrastruktur Management;e1c8a44d-31f0-408c-92bd-4044f7bec080;becloud.1CU;JGK-ABA-C-ADM-P-001;True;KAIO;Prod;50GB;2017-03-23T07:32:56Z;mighty-turkey-18.cloud.kb-bedag.ch
-Windows;150GB;100;JGK BiblioJGK;cb190f60-078c-42f7-9854-d97bb3e46ac7;becloud.4CU;JGK-ABA-C-Biblio-T-001;False;KAIO;Test;150GB;2015-10-25T08:03:01Z;lovely-jaguar-71.cloud.kb-bedag.ch
-Windows;0;100;Management Server (Jumpserver);62a2e466-0693-4b65-b14e-16e02f25b244;becloud.1CU;FIN-KAIO-C-ADM-P-001;True;KAIO;Prod;0;2016-08-18T10:37:58Z;strong-dog-10.cloud.kb-bedag.ch
-Windows;50GB;100;BE-Print EveryonePrint;5e96ccee-3098-4e29-9c34-f407ff4abac8;becloud.2CU;KAIO-BEPRINT-EOP-C-001;True;KAIO;Prod;50GB;2016-11-28T12:48:59Z;evil-stingray-38.cloud.kb-bedag.ch
-Windows;160GB;100;JGK BiblioJGK;b3bc86f6-4069-418f-bf59-1f3f3f094567;becloud.4CU;JGK-ABA-C-Biblio-P-001;True;KAIO;Prod;160GB;2016-10-25T08:08:52Z ;mighty-wombat-17.cloud.kb-bedag.ch
-Windows;50GB;100;Management Server (Jumpserver);93327d6d-c67a-46ed-b633-b780abb4780a;becloud.1CU;FIN-KAIO-C-ADM-P-002;True;KAIO;Prod;50GB;2017-02-09T08:30:17Z;empty-zebra-35.cloud.kb-bedag.ch
-Windows;170GB;100;FIN-SV UBitLink Hybrid;74589716-3b14-4bf7-893e-b1b71522a5a1;becloud.4CU;FIN-SV-C-UBIT-P-001;True;KAIO;Prod;100GB;2017-04-21T11:50:41Z;terrible-ladybug-09.cloud.kb-bedag.ch

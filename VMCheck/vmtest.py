@@ -10,6 +10,9 @@ class VMChecker():
 
     def __init__(self):
         pass
+
+    def test():
+        pass
         
     def run(self):    
         self.printLog("\nStart VMCheck: %s" %datetime.datetime.now())
@@ -83,7 +86,6 @@ class VMChecker():
                 if first[key] > second[key]:
                     second[key] = first[key]
                     self.printLog('Move to previous month: ID %s' %second['ID'])
-                    print("new")
         return second
     
     #Adds/Update dict entry lock date => key=Lock value=True/False

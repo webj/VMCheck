@@ -42,7 +42,7 @@ class VMChecker():
                 if self.__debug:
                     self.printLog("Add Server %s to Dict" % key)
                 mydict[key] = dict(zip(headerrow, row))   
-                self.addLockDate(mydict[key])                                     
+                self.addLockDate(mydict[key])
         return mydict       
     
     #loads the price for the different VMs

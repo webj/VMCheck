@@ -2,7 +2,6 @@ import csv
 import sys
 import datetime
 import itertools
-from itertools import chain
 
 class VMChecker():
         
@@ -13,14 +12,17 @@ class VMChecker():
         
     def run(self):    
         self.printLog("\nStart VMCheck: %s" %datetime.datetime.now())
-        oldmonth = self.loadData('mock_maerz17.txt')                
+        
+        print(self.loadPriceList('pricelist.txt'))        
+
+        oldmonth = self.loadData('mock_maerz17.txt', mykey)                
         print(len(oldmonth))
-        newmonth = self.loadData('mock_april17.txt')        
+        newmonth = self.loadData('mock_april17.txt', meykey)        
         if self.changes(oldmonth, newmonth):            
             self.newVMs(oldmonth, newmonth)          
             self.missingLockedVMs(oldmonth, newmonth)      
             self.changingParameters(oldmonth, newmonth)                        
-            self.createCSV(newmonth)
+            self.createCSV(newmonth)            
         else:
             self.printLog("There were no changes since last month.") 
             self.createCSV(newmonth)        
@@ -42,7 +44,15 @@ class VMChecker():
                 mydict[key] = dict(zip(headerrow, row))   
                 self.addLockDate(mydict[key])                                     
         return mydict       
+    
+    #loads the price for the different VMs
+    def loadPriceList(self, datafile):
+        csvreader = csv.reader(open(datafile), delimiter='\t')        
+        return {rows[0]:rows[1] for rows in csvreader}
 
+    def addPrice(self, mydict, pricelist):
+        pass
+    
     def changes(self, oldmonth, newmonth):
         return oldmonth != newmonth
        
@@ -82,8 +92,7 @@ class VMChecker():
                 self.printLog('Value Changed => Server: {}, Column: {}, Value Old: {}, Value New: {}'.format(first['ID'], key, first[key], second[key]))
                 if first[key] > second[key]:
                     second[key] = first[key]
-                    self.printLog('Move to previous month: ID %s' %second['ID'])
-                    print("new")
+                    self.printLog('Move to previous month: ID %s' %second['ID'])                    
         return second
     
     #Adds/Update dict entry lock date => key=Lock value=True/False
@@ -91,6 +100,11 @@ class VMChecker():
         mydate = str(mydict['Commision Date'])[:10]
         mydatetime = datetime.datetime.strptime(mydate, '%Y-%m-%d')
         mydict['Lock'] =  mydatetime > (datetime.datetime.now() - datetime.timedelta(days=365))
+
+    def addPrice(self, newmonth):
+        for key in newmonth:
+            for key in newmonth[key]:
+                pass
     
     #creates CSV for the new month
     def createCSV(self, datadict):

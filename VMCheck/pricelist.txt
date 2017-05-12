@@ -1,5 +1,0 @@
-CU	938.79
-AP Storage	3.36
-Backup GVS inkl KR	13.45
-Windows	1946.7
-Linux	1558.7

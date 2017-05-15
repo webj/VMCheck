@@ -2,6 +2,7 @@ import csv
 import sys
 import datetime
 import itertools
+import re
 
 class VMChecker():
         
@@ -12,12 +13,9 @@ class VMChecker():
         
     def run(self):    
         self.printLog("\nStart VMCheck: %s" %datetime.datetime.now())
-        
-        print(self.loadPriceList('pricelist.txt'))        
-
-        oldmonth = self.loadData('mock_maerz17.txt', mykey)                
-        print(len(oldmonth))
-        newmonth = self.loadData('mock_april17.txt', meykey)        
+        oldmonth = self.loadData('mock_maerz17.txt')                       
+        newmonth = self.loadData('mock_april17.txt')
+        myPriceList = self.loadPriceList('pricelist.txt')                
         if self.changes(oldmonth, newmonth):            
             self.newVMs(oldmonth, newmonth)          
             self.missingLockedVMs(oldmonth, newmonth)      
@@ -41,9 +39,23 @@ class VMChecker():
             else:
                 if self.__debug:
                     self.printLog("Add Server %s to Dict" % key)
-                mydict[key] = dict(zip(headerrow, row))   
+                mydict[key] = dict(zip(headerrow, row))                
                 self.addLockDate(mydict[key])
-        return mydict       
+                self.smoothValues(mydict[key])
+        return mydict
+    
+    #removes redundant values from dictentries
+    def smoothValues(self, mydict):
+          p = re.compile('\d+')
+          myitems = ['CU', 'AP Storage', 'Backup GVS inkl KR']  
+          for item in myitems:
+              m = p.findall(str(mydict[item]))
+              try:
+                 len(m) == 1
+              except ValueError:
+                 print("CSV Daten nicht korrekt")
+                 exit(1)
+              mydict[item] = int(m[0])            
     
     #loads the price for the different VMs
     def loadPriceList(self, datafile):
@@ -51,8 +63,15 @@ class VMChecker():
         return {rows[0]:rows[1] for rows in csvreader}
 
     def addPrice(self, mydict, pricelist):
-        pass
-    
+        for key in mydict:
+            subdict = mydict[key]
+            subdict['Price'] = 0
+            for pricekey in pricelist:
+                    if pricekey == 'Typ':
+                        subdict['Price'] += pricelist[pricekey]
+                    else:    
+                        subdict['Price'] += pricelist[pricekey]*subdict[pricekey]
+
     def changes(self, oldmonth, newmonth):
         return oldmonth != newmonth
        
